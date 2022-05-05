@@ -36,13 +36,21 @@ validation = []
 #get each image, convert it to a numpy array and store it in a dictionary
 for path in paths:
     item, color = path.split('/')
-    files = os.listdir("data/" + path + "/")
-    
+    if os.name == 'nt':
+        files = os.listdir("data/" + path + "/")
+    else:
+        files = os.listdir(path + "/")
     data_list = []
 
     #open all files
     for file in files:
-        image = Image.open("data/"+path+"/"+file)
+        try:
+            if os.name == 'nt':
+                image = Image.open("data/"+path+"/"+file)
+            else:
+                image = Image.open(path+"/"+file)
+        except Exception as e:
+            print(f"couldnt open file {file} because {e}. skipping !")
         image = np.array(image)
 
         name_idx = np.where(names_items == item.capitalize())
