@@ -51,7 +51,12 @@ for path in paths:
                 image = Image.open(path+"/"+file)
         except Exception as e:
             print(f"couldnt open file {file} because {e}. skipping !")
+            continue
         image = np.array(image)
+
+        #check if image is valid
+        if not (len(image.shape) == 3 and image.shape[2] == 3):
+            continue
 
         name_idx = np.where(names_items == item.capitalize())
         item_idx = np.where(items[:,name_idx] == 1)[0]
