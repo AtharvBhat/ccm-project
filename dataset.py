@@ -25,5 +25,5 @@ class CcmDataset(Dataset):
         relation = self.data[i]["relation"]
         attribute = self.data[i]["attribute"]
 
-        return (self.transform(image), torch.tensor(relation, dtype=torch.float32)), torch.tensor(attribute, dtype=torch.float32)
+        return (self.transform(image), torch.tensor(relation, dtype=torch.float32), self.data[i]["item"], self.data[i]["color"]), torch.tensor(attribute, dtype=torch.float32)
             
