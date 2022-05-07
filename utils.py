@@ -38,7 +38,7 @@ def validation(model : nn.Module, criterion : nn.MSELoss, device : torch.device,
     return total_error/len(dataloader)
 
 
-def get_rep(model : nn.Module):
+def get_rep(model : nn.Module, mean=0, std=0):
     # Extract the hidden activations on the Representation Layer for each item
     # 
     # Input
@@ -47,7 +47,7 @@ def get_rep(model : nn.Module):
     # Output
     #  rep : dict{item: avg representation vector for validaiton set}, where each row is an item
     representations = {}
-    validaiton_data = CcmDataset("data/validation.pkl")
+    validaiton_data = CcmDataset("data/validation.pkl", mean, std)
     model.eval()
     for item in validaiton_data:
         x, y = item
@@ -93,7 +93,7 @@ def plot_rep(rep1, rep2, rep3, rep4, rep5, names):
     mn = R.min()
     depth = R.shape[2]
     count = 1
-    plt.figure(1,figsize=(15,20))
+    plt.figure(1,figsize=(25,25))
     for i in range(nrows):
         for d in range(R.shape[2]):
             plt.subplot(nrows, depth, count)
@@ -116,7 +116,7 @@ def plot_dendo(rep1,rep2,rep3,names):
     #  Each rep1, rep2, rep3 is a [nitem x rep_size numpy array]
     #  names : [nitem list] of item names
     #
-    nepochs_list = list(range(3,20,5))
+    nepochs_list = list(range(9,20,5))
     linked1 = linkage(rep1,'single')
     linked2 = linkage(rep2,'single')
     linked3 = linkage(rep3,'single')
