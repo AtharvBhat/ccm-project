@@ -86,7 +86,7 @@ def plot_rep(rep1, rep2, rep3, rep4, rep5, names):
     #  Each rep1, rep2, rep3 is a [nitem x rep_size numpy array]
     #  names : [nitem list] of item names
     #
-    nepochs_list = list(range(2,15,3))
+    nepochs_list = list(range(3,20,4))
     nrows = len(names)
     R = np.dstack((rep1,rep2,rep3, rep4, rep5))    
     mx = R.max()
@@ -107,4 +107,32 @@ def plot_rep(rep1, rep2, rep3, rep4, rep5, names):
             if i==0:
                 plt.title("epoch " + str(nepochs_list[d]))
             count += 1
+    plt.show()
+
+def plot_dendo(rep1,rep2,rep3,names):
+    #  Compares Representation Layer activations of Items at three different times points in learning (rep1, rep2, rep3)
+    #  using hierarchical clustering
+    # 
+    #  Each rep1, rep2, rep3 is a [nitem x rep_size numpy array]
+    #  names : [nitem list] of item names
+    #
+    nepochs_list = list(range(3,20,5))
+    linked1 = linkage(rep1,'single')
+    linked2 = linkage(rep2,'single')
+    linked3 = linkage(rep3,'single')
+    mx = np.dstack((linked1[:,2],linked2[:,2],linked3[:,2])).max()+0.1    
+    plt.figure(2,figsize=(25,25))
+    plt.subplot(3,1,1)    
+    dendrogram(linked1, labels=names, color_threshold=0)
+    plt.ylim([0,mx])
+    plt.title('Hierarchical clustering; ' + "epoch " + str(nepochs_list[0]))
+    plt.ylabel('Euclidean distance')
+    plt.subplot(3,1,2)
+    plt.title("epoch " + str(nepochs_list[1]))
+    dendrogram(linked2, labels=names, color_threshold=0)
+    plt.ylim([0,mx])
+    plt.subplot(3,1,3)
+    plt.title("epoch " + str(nepochs_list[2]))
+    dendrogram(linked3, labels=names, color_threshold=0)
+    plt.ylim([0,mx])
     plt.show()
