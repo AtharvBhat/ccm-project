@@ -86,7 +86,7 @@ def plot_rep(rep1, rep2, rep3, rep4, rep5, names):
     #  Each rep1, rep2, rep3 is a [nitem x rep_size numpy array]
     #  names : [nitem list] of item names
     #
-    nepochs_list = [2, 4, 6, 8 ,10]
+    nepochs_list = list(range(2,15,3))
     nrows = len(names)
     R = np.dstack((rep1,rep2,rep3, rep4, rep5))    
     mx = R.max()
