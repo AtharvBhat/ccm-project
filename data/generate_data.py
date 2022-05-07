@@ -80,9 +80,15 @@ print(f"Number of train samples :{len(train)}")
 print(f"Number of validation samples :{len(validation)}")
 
 import pickle as pkl
+if os.name == 'nt':
+    with open('data/train.pkl', 'wb') as f:
+        pkl.dump(train, f)
 
-with open('data/train.pkl', 'wb') as f:
-    pkl.dump(train, f)
+    with open('data/validation.pkl', 'wb') as f:
+        pkl.dump(validation, f)
+else:
+    with open('train.pkl', 'wb') as f:
+        pkl.dump(train, f)
 
-with open('data/validation.pkl', 'wb') as f:
-    pkl.dump(validation, f)
+    with open('validation.pkl', 'wb') as f:
+        pkl.dump(validation, f)
