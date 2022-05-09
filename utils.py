@@ -38,7 +38,7 @@ def validation(model : nn.Module, criterion : nn.MSELoss, device : torch.device,
     return total_error/len(dataloader)
 
 
-def get_rep(model : nn.Module, mean=0, std=0):
+def get_rep(model : nn.Module, mean=0, std=0, k=None, b_std=None):
     # Extract the hidden activations on the Representation Layer for each item
     # 
     # Input
@@ -47,7 +47,7 @@ def get_rep(model : nn.Module, mean=0, std=0):
     # Output
     #  rep : dict{item: avg representation vector for validaiton set}, where each row is an item
     representations = {}
-    validaiton_data = CcmDataset("data/validation.pkl", mean, std)
+    validaiton_data = CcmDataset("data/validation.pkl", mean, std, k, b_std)
     model.eval()
     for item in validaiton_data:
         x, y = item

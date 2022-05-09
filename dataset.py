@@ -8,13 +8,16 @@ import math
 
 class CcmDataset(Dataset):
 
-    def __init__(self, path, mean=0, std=0):
+    def __init__(self, path, mean=0, std=0, k=None, b_std=None):
         self.data = None
 
         #transforms
         self.transform = T.Compose([T.ToTensor(),
                                     T.Resize((224,224)),
-                                    AddGaussianNoise(mean, std)])
+                                    AddGaussianNoise(mean, std),
+                                    T.GaussianBlur(k, b_std)]) if k is not None and b_std is not None else T.Compose([T.ToTensor(),
+                                                                                                                    T.Resize((224,224)),
+                                                                                                                    AddGaussianNoise(mean, std)])
 
         #load data
         with open(path,'rb') as f:
